@@ -1,0 +1,512 @@
+SELECT -- selecionar
+
+SELECT * -- selecionar todos
+
+SELECT (nome da tabela) -- selecionar table
+
+FROM -- de (tabela)
+
+WHERE -- onde (onde será a seleção)
+
+ODER BY -- ordenar por...
+oder by 1,2,3,4 = ordena por ordem exemplo:
+	SELECT ultimo nome, trabalho, departamento, aniversário
+	FROM empregados
+	ORDER BY 3; (ordena a partir da terceira coluna)
+
+WHERE '(nome da tabela) ='  = selecionar valor igual
+
+WHERE '(nome da tabela) <='  = selecionar valor menor ou igual
+
+WHERE '(nome da tabela) >='  = selecionar valor maior ou igual
+
+WHERE '(nome da tabela) >'  = selecionar valor maior
+
+WHERE '(nome da tabela) <'  = selecionar valor menor
+
+BETWEEN -- valor entre
+
+AND -- selecionar dois valores
+
+OR -- selecionar valor onde apenas um seja true
+
+NOT -- valor onde seja falso
+
+IN -- selecionar apenas tabelas pré definidas
+
+LIKE -- selecionar valor semelhante a: (usando aspas simples '' para inserir o valor)
+
+% -- a partir de: preenche a string ao onde se encontra com o comando por exemplo:
+	SELECT nome, ultimo nome
+	FROM empregados
+	WHERE ultimo nome LIKE '%a';
+
+_ -- valor que preenche uma coluna em branco (serve para informar que existe um valor entre a string)
+exemplo: 
+	WHERE sobrenome LIKE '%a_';
+
+NULL -- representa todos os valores nulos
+
+IS NULL -- mostra tabelas com o valor nulo
+
+ASC -- selecionar tabelas em ordem crecente
+
+DESC -- selecionar tabelas em ordem decrescente
+
+& -- abre um prompt onde vc pode selecionar o valor desejado sem precisar alterar o código
+
+&& -- abre o prompt para inserir o valor e permanece o mesmo caso seje  executado novamente
+
+'&' -- abre um prompt para selecionar valor dentro de uma tabela (as '' servem para separar o comando,
+sem elas consta como nome da coluna em expecífico) usado para valores tipo character
+
+DEFINE -- define um valor para a variavél & exemplo:
+	DEFINE empregados_id = 101
+
+	WHERE empregados_id = &empregados_id ;
+UNDEFINE = remove o valor definido para a variavél
+
++ -- operador aritimédico de adição
+
+- -- operador aritimédico de subtração
+
+*  -- operador aritimédico de multiplicar
+
+/ -- operador aritimédico de divisão
+
+	FUNÇÕES DE CONVERSÃO
+
+LOWER -- retorna argumentos em minúsculo
+
+UPPER -- retorna argumentos em maiúsculo
+
+INITCAP -- retorna argumentos onde a primeira letra do valor é maiúscula seguida de minúsculo
+
+CONCAT -- concatena dois argumentos 
+por exemplo:
+	SELECT CONCAT(' Curso: ','Introdução ORACLE');
+
+SUBSTR -- retorna um argumento pré selecionado
+por exemplo:
+	SUBSTR('Introdução ORACLE',1,11); 
+resultado: (Introdução )
+
+LENGTH -- retorna a quantidade de characters;
+
+INSTR -- inspecionar, procura por um string dentro de um string retornando com a posição da string
+por exemplo:
+	INSTR('Introdução ORACLE','ORACLE')
+resultado: 12
+
+	Dual;
+
+FROM dual; - é uma tabela que sempre vai existir no banco de dados oracle
+
+LPAD -- insere valor definido a partir da esquerda
+por exemplo:
+	LPAD(first_name, 10, '*')
+resultado: (**********nome)
+
+RPAD -- insere valor definido a partir da direita
+
+REPLACE -- substitui valor 
+por exemplo:
+	SELECT job_title, REPLACE(job_title, 'President', 'Presidente') CARGO
+resultado: (JOB_TITLE = President, Cargo = Presidente)
+
+	FUNÇÕES TIPO NUMBER
+
+ROUND -- arredonda o valor pela casa decimal especificada
+por exemplo:
+	SELECT ROUND(45.923,2), ROUND(45.923,0)
+	FROM dual;
+resultado: (45,92) e (46)
+
+TRUNC -- trunca o valor para a casa decimal especificada
+por exemplo:
+    SELECT TRUNC(45.923,2), TRUNC(45.923,0)
+    FROM dual;
+resultado: (45,92) (45)
+
+MOD -- retorna o resto da divisão 
+por exemplo:
+    SELECT MOD(1300,600) RESTO
+    FROM dual;
+resultado: (resto=100)
+
+ABS -- retorna o valor absoluto (positivo)
+por exemplo:
+    SELECT ABS(-9)
+    FROM dual;
+resultado: (9)
+
+SQRT -- retorna a raiz quadrada do valor
+por exemplo:
+    SELECT SQRT(9)
+    FROM dual;
+resultado: (3)
+
+	FUNÇÕES TIPO DATE
+
+	* O formato defailt de exibição de datas é definido pelo DBA através do aparametro 
+	NLS_DATE_FORMAT
+	* No Brasil normalmente o formato default de exibição de datas é definido para
+	'DD/MM;YY' ou 'DD/MM/RR'
+
+Select sysdate
+FROM dual; - exibe a data
+observação: é possível fazer cálculos com data
+
+-- Cálculo para verificar semanas trabalhadas:
+	SELECT last_name, ROUND((SYSDATE-hire_date)/7,2) "SEMANAS DE TRABALHO'"
+	FROM employees;
+
+MONTHS_BETWEEN -- Número de meses entre duas datas
+
+ADD_MONTHS -- Adicionaa meses a umda data
+
+NEXT_DAY -- Próximo dia relativo a data especificada
+
+LAST_DAY -- Último dia do mês
+
+ROUND -- arredonda a data
+
+TRUNC -- trunca a data
+
+Exemplos:
+
+SELECT first_name, last_name, ROUND(MONTHS_BETWEEN(sysdate, hire_date),2) "MESES DE TRABALHO"
+FROM employees;
+
+SELECT SYSDATE, ADD_MONTHS(SYSDATE, 3), NEXT_DAY(SYSDATE,'SEXTA FEIRA'), LAST_DAY(SYSDATE)
+FROM   dual;
+
+SELECT sysdate, ROUND(SYSDATE, 'MONTH'), ROUND(SYSDATE, 'YEAR'), 
+       TRUNC(SYSDATE, 'MONTH'), TRUNC(SYSDATE, 'YEAR')
+FROM   dual;
+
+TO_CHAR -- função que muda o formato DATA para CHARACTER
+exemplo:
+
+SELECT SYSDATE, TO_CHAR(TRUNC(SYSDATE),'DD/MM/YYYY HH24:MI:SS')
+FROM  dual;
+
+-- Tipos de formatação de datas:
+	YYYY or RRRR - Ano com quatrro digitos
+	MM - M~es com dois digitos
+	DD - dia do mês com dois digitos
+	MONTH - nome do mês com 9 caracteres
+	MON - Nome do mês abreviado com 3 characters
+	DAY - Dia da semana com 9 characteres
+	DY - Dia da semana abreviado com três caracteres
+	D - dia da semana com numeros de 1 a 7
+	YEAR - Ano soletrado (em inglês)
+	CC - século 
+	AC or DC - Exibe se a data é antes ou depois de Cristo
+	HH or HH12 - Hora de 1 a 12
+	HH24 - Hora de 0 a 23
+	MI - Mínuto
+	SS - Segundo
+	Espaços, virgulas ou ponto podem ser incluídos
+	"Texto" - Insere texto entre aspas duplas no formato
+	SP - Número soletrado (inglês)
+	TH - Númerico em ordinal (inglês)
+	FM - oculta 0 a esquerda e campos sem valor
+
+-- Ultilizando a função TO_CHAR cp, Números
+	9 -- Numero com supressão de zeros a esquerda
+	0 -- Número incluindo zeros a partir da esquerda a paritr da posição 
+	--onde foi colocaado o elemento de formato (0)
+	$ -- Simbolo de moeda ($)
+	L -- Símbolo de moeda definido pelo parametro NLS_CURRENCY
+	. -- Decimal (.)
+	, -- Milhar (,)
+	D -- Simbolo de decimal definido de acordo com o parâmetro do banco de dados
+	G -- Símbolo de milhar definido de acordo com o parâmetro do banco de dados.
+
+TO_DATE -- Função que muda string para DATA
+exemplo:
+
+SELECT TO_DATE('06/02/2020','DD/MM/YYYY') DATA
+FROM  dual;
+
+-- Utilizando a Função NVL
+
+SELECT last_name, salary, NVL(commission_pct, 0), salary*12 SALARIO_ANUAL, 
+       (salary*12) + (salary*12*NVL(commission_pct, 0)) REMUNERACAO_ANUAL
+FROM employees;
+
+-- Função COALESCE pode receber multiplos argumentos
+Exemplos:
+
+SELECT COALESCE(NULL, NULL, 'Expresssão 3'), COALESCE(NULL, 'Expressão 2', 'Expresssão 3'),
+       COALESCE('Expressão 1', 'Expressão 2', 'Expresssão 3')
+FROM dual;
+
+SELECT last_name, employee_id, commission_pct, manager_id, 
+       COALESCE(TO_CHAR(commission_pct),TO_CHAR(manager_id),
+       'Sem percentual de comissão e sem gerente')
+FROM employees;
+
+-- Utilizando a Função NULLIF
+Retorna a função se ambos os valores forem idênticos
+
+SELECT NULLIF(1000,1000), NULLIF(1000,2000)
+FROM dual;  
+-- Expressão CASE
+avalia a tabela e trabalha com varios casos simultaneos
+
+SELECT last_name, job_id, salary,
+                          CASE job_id
+                             WHEN 'IT_PROG'   
+                               THEN 1.10*salary
+                             WHEN 'ST_CLERK' 
+                               THEN 1.15*salary
+                             WHEN 'SA_REP' 
+                               THEN 1.20*salary
+                             ELSE salary 
+                           END "NOVO SALARIO"
+FROM employees;
+
+
+-- Utilizando a Função DECODE
+Ao contrário da expressão CASE, ele finaliza com o valor padrão
+
+SELECT last_name, job_id, salary,
+DECODE(job_id, 'IT_PROG' , 1.10*salary,
+               'ST_CLERK', 1.15*salary,
+               'SA_REP'  , 1.20*salary
+                         , salary) "NOVO SALARIO"
+FROM employees;
+
+-- FUNÇÕES DE GRUPO
+
+AVG -- Retorna a média do grupo
+COUNT -- Retorna número de linhas do grupo
+MAX -- Retorna o maior valor do grupo
+MIN -- Retornar o menor valor do grupo
+SUM -- Retorna o somatório do grupo
+STDDEV -- Retorna o desvio padrão do grupo
+VARIANCE -- retorna a variança do grupo
+
+-- Utilizando as Funções AVG e SUM
+
+SELECT AVG(salary), SUM(salary)
+FROM   employees;
+
+-- Utilizando as Funções MIN e MAX
+
+SELECT MIN(salary), MAX(salary)
+FROM   employees;
+
+-- Utilizando a Função COUNT
+
+SELECT COUNT(*)
+FROM   employees;
+
+SELECT COUNT(commission_pct)
+FROM   employees;
+
+SELECT COUNT(commission_pct), COUNT(*)
+FROM employees;
+
+SELECT COUNT(NVL(commission_pct,0))
+FROM employees;
+
+-- Utilizando a Função COUNT com DISTINCT
+
+SELECT COUNT(DISTINCT department_id)
+FROM   employees;
+
+SELECT COUNT(department_id)
+FROM   employees;
+
+GROUP BY -- Ordenar por...
+-- Criado Grupos utilizando a Cláusula GROUP BY
+
+SELECT department_id, AVG(salary)
+FROM   employees
+GROUP BY department_id 
+ORDER BY department_id;
+
+
+HAVING --Uma cláusula HAVING em SQL especifica que uma instrução SQL SELECT deve retornar
+--apenas linhas onde os valores agregados atendem às condições especificadas.
+
+JOIN -- Cria uma junção de tabelas
+Exemplo:
+
+SELECT employees.employee_id, employees.last_name, 
+       employees.department_id, departments.department_name
+FROM   employees JOIN departments 
+       ON (employees.department_id = departments.department_id);
+
+
+NATURAL JOIN --Um JOIN NATURAL é uma operação JOIN que cria uma cláusula de junção implícita
+--para você com base nas colunas comuns nas duas tabelas que estão sendo unidas.
+
+USING --Ultilizando a clausa a coluna não pode ser pré fixada
+
+ON --O objetivo da cláusula ON é especificar as condições de junção, ou seja, definir como as tabelas devem ser unidas.
+
+JOIN AND WHERE --Exemplo
+
+SELECT e.employee_id, e.last_name, e.salary, e.department_id, d.department_name
+FROM employees e JOIN departments d
+ON  (e.department_id = d.department_id)
+WHERE (e.salary BETWEEN 10000 AND 15000);
+
+Exemplo para selecionar com valores nulos
+
+SELECT e.first_name, e.last_name, d.department_id, d.department_name
+FROM   employees e,
+       departments d
+WHERE  e.department_id(+) = d.department_id 
+ORDER BY e.first_name;
+
+Exemplo produto Cartesiano
+
+-- Produto Cartesiano
+
+SELECT e.employee_id, e.first_name, e.last_name, j.job_id, j.job_title
+FROM   employees e, jobs j;
+
+-- Corrigindo Produto Cartesiano
+
+SELECT e.employee_id, e.first_name, e.last_name, j.job_id, j.job_title
+FROM   employees e, jobs j
+WHERE  e.job_id = j.job_id;
+
+IN -- Igual a qualquer membro da lista.
+
+ANY --Deve ser parecido por =,!=,>,<,<=,>=. Compara um valor para qualquer valor na lista retornada pela sub-consulta. Retorna FALSE se a sub consulta retornar nenhuma linha.
+
+ALL --Deve ser parecido por =,!=,>,<,<=,>=. Compara um valor para todos os valores na lista retornada pela sub-consulta. Retorna TRUE se a sub consulta retornar nenhuma linha.
+
+NOT --Pode ser ADD na operação.
+
+--Operadores SET
+
+UNION --O operador UNION combina os resultados de duas ou mais queries em um único result set, retornando todas as linhas pertencentes a todas as queries envolvidas na execução. Para utilizar o UNION, o número e a ordem das colunas precisam ser idênticos em todas as queries e os data types precisam ser compatíveis.
+Exemplo:
+	SELECT employee_id, job_id, hire_date, salary
+	FROM   employees
+	WHERE  department_id IN (60, 90, 100)
+	UNION
+	SELECT employee_id, job_id, hire_date, salary
+	FROM   employees
+	WHERE  job_id = 'IT_PROG'
+	ORDER BY employee_id;
+
+UNION ALL --O comando UNION ALL combina o conjunto de resultados de duas ou mais instruções SELECT (permite valores duplicados).
+
+INTERSECT --INTERSECT retorna linhas distintas que são produzidas pelo operador das consultas de entrada à esquerda e à direita. Para combinar os conjuntos de resultados de duas consultas que usam EXCEPT ou INTERSECT, as regras básicas são: O número e a ordem das colunas devem ser iguais em todas as consultas.
+
+MINUS --O comando MINUS funciona com duas instruções SQL. Recolhe todos os resultados da primeira instrução SQL e, em seguida, subtrai as que estão presentes na segunda instrução SQL de modo a obter o resultado final.
+
+	-- Comandos DML
+
+INSERT INTO --Existem duas sintaxes básicas da instrução INSERT INTO que são mostradas abaixo.
+
+VALUES -- É um construtor de valor de tabela que especifica um conjunto de expressões de valor de linha a serem construídas em uma tabela.
+
+	INSERT INTO TABLE_NAME (coluna1, coluna2, coluna3,... colunaN) 
+	VALUES (valor1, valor2, valor3,... valorN);
+
+& -- variavél de substituição. Define novo valor para a linha inserida.
+Exemplo:
+	INSERT INTO departments
+	(department_id, department_name, location_id)
+	VALUES (&department_id, '&department_name',&location);
+
+
+UPDATE --O comando UPDATE é o comando SQL responsável por atualizar os dados já armazenados em uma tabela do banco. Ele pode ser usado tanto para atualizar um único registro quanto para alterar múltiplas informações de uma vez.
+
+ROLLBACK --ROLLBACK é uma linguagem de controle transacional em SQL. Ele permite que um usuário desfaça as transações que ainda não foram salvas no banco de dados. Pode-se fazer uso deste comando se desejar desfazer qualquer alteração ou alteração desde a execução do último COMMIT.
+
+DELETE --O comando Delete no SQL faz parte da Data Manipulation Language, uma sublinguagem do SQL que permite a modificação de dados em bancos de dados. Este comando é usado para excluir registros existentes de uma tabela. Usando isso, você pode excluir registros específicos com base em uma condição ou todos os registros de uma tabela.
+
+COMMIT --Efetiva a transação.
+
+	-- Comandos DDL
+
+CREATE TABLE -- criar tabela. Deve ser inserido os tipos de valores como o exemplo a baixo.
+	CREATE TABLE sales_reps
+	(id NUMBER(6,0),
+	 name VARCHAR2(20),
+	 salary NUMBER(8,2),
+	 commission_pct NUMBER(2,2));
+
+VARCHAR --VARCHAR é uma abreviação para VARiable-length CHARacter string que é uma sequência de caracateres de texto que pode ser tão grande quanto o tamanho da página para a tabela de banco de dados da coluna em questão.
+
+VARCHAR2 --armazena caracteres alfanuméricos de tamanho variável, entre 1 e 4000 bytes ou caracteres. O tamanho padrão desta coluna é especificado em bytes.
+
+DATE 
+
+SAVEPOINT --Um SAVEPOINT é um ponto em uma transação em que você pode reverter a transação para um determinado ponto sem reverter a transação inteira.
+
+FOR UPDATE --É usada para ordenar transações controlando o acesso simultâneo a uma ou mais linhas de uma tabela. Ele funciona bloqueando as linhas retornadas por uma consulta de seleção, de modo que outras transações que tentam acessar essas linhas são forçadas a aguardar a conclusão da transação que bloqueou as linhas.
+
+CHAR --CHAR é um tipo de dados de cadeia de comprimento fixo, portanto, qualquer espaço restante no campo é preenchido com espaços em branco. CHAR ocupa 1 byte por caractere. Portanto, um campo (ou variável) CHAR(100) ocupa 100 bytes no disco, independentemente da string que ele contém.
+
+NUMBER(p,s) --(p) = Presição de números totais (maxímo 38) e (s) escala (decimal).
+
+LONG
+
+CLOB -- O tipo de dado externo CLOB armazena dados de tamanho fixo ou variável no formato de caracteres. Um CLOB pode armazenar até 4 gigabytes de dados de caracteres. CLOBs tem completo suporte transacional.
+
+RAW --dados binários
+
+LONG RAW -- maxímo 2gb
+
+BLOB --(4gb -1)
+
+BFILE --Esse tipo de dados é usado para grandes objetos de dados binários armazenados em arquivos do sistema operacional, fora dos tablespaces do banco de dados.
+
+ROWID --permite escrever consultas que navegam diretamente para uma linha na tabela porque a coluna contém implicitamente o local da linha. Cada valor em uma coluna ROWID deve ser exclusivo.
+
+BINARY_FLOAT -- é um tipo de ponto flutuante nativo de precisão simples que dá suporte aos valores +Inf , -Inf e NaN . BINARY_FLOAT é um valor numérico aproximado que consiste em um expoente e mantissa.
+
+BINARY_DOUBLE -- 01é um número de ponto flutuante nativo de precisão dupla que suporta os valores +Inf , -Inf e NaN. BINARY_DOUBLE é um valor numérico aproximado que consiste em um expoente e mantissa. Você pode usar a notação exponencial ou E.
+
+TIMESTAMP --data com até 9 digitos decimais de segundo.
+
+INTERVAL YEAR TO MONTH --armazenado como um intervalo de anos e meses.
+
+INTERVAL DAY TO SECOND --armazenado com um intervalo de dias, horas, minutos e segundos.
+
+--select para verificar tabelas de um usúario
+SELECT table_name
+from user_tables;
+
+or
+
+SELECT object_name, object_type
+FROM   user_objects
+WHERE  object_type = 'TABLE';
+
+CREATE TABLE AS -- Cria uma tabela com os resultados de um SELECT.
+Exemplo:
+	CREATE TABLE employees_department60
+	AS
+	SELECT employee_id, last_name,salary*12 ANNSAL, hire_date
+	FROM employees
+	WHERE department_id = 60;
+
+TRUNCATE TABLE -- é uma operação de linguagem de definição de dados que marca as extensões de uma tabela para desalocação. O resultado dessa operação remove rapidamente todos os dados de uma tabela, normalmente contornando vários mecanismos de reforço da integridade.
+
+DROP TABLE -- remove tabela.
+
+--consultar a lixeira
+	SELECT *
+	FROM user_recyclebin;
+
+ALTER TABLE ADD -- alterar coluna.
+Exemplo:
+	ALTER TABLE projects
+	ADD (department_id NUMBER(3)); 
+
+DROP COLUMN -- remove coluna de uma tabela(Commit altomático, não tem ROLLBACK).
+
+MODIFY --altera dados da coluna.
+
